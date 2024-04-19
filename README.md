@@ -7,10 +7,6 @@ Payson Checkout extension for OpenCart 4
 
 * Download the extension [oc_payment_paysoncheckout.ocmod.zip]
 
-* Make sure the 'admin' folder in your store is not named something else.
-
-* The admin folder in the module needs to be renamed if it has a different name.
-
 * Upload the extension via _Extensions_ -> _Installer_ and click Upload.
 
 * Install the extension via _Extensions_ -> _Extensions_ -> _Payments_
@@ -18,23 +14,6 @@ Payson Checkout extension for OpenCart 4
 * Find Payson Checkout 2.0 and Click the green Install button.
 
 * Enable and configure the extension.
-
-
-
-## Manual installation
-
-* Make a backup of your files and database.
-
-* Download and unzip this repository.
-
-* Upload all files and folders from "upload" to your OpenCart root.
-
-* Install the extension via _Extensions_ -> _Extensions_ -> _Payments_
-
-* Find Payson Checkout 2.0 and Click the green Install button.
-
-* Enable and configure the extension.
-
 
 
 ### Configuration
