@@ -1,5 +1,11 @@
-# PaysonCheckout-Opencart-4
-Payson Checkout extension for OpenCart 4
+# Payson Checkout OpenCart extension
+
+## Description
+
+Extension for OpenCart implementing Payson Checkout.
+
+* Support OpenCart 4.
+
 
 ## Quick Installation via OpenCart Extension Installer
 
