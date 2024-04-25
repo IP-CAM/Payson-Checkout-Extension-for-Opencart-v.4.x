@@ -1,0 +1,363 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="float-end">
+                <button type="submit" form="form-payment" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
+                <a href="https://account.payson.se/account/create/" data-bs-toggle="tooltip" title="{{ help_button_create_a_paysonaccount }}" class="btn btn-light"><i>Payson</i></a>
+
+                <a href="https://test-www.payson.se/TestAccount/Create/" data-bs-toggle="tooltip" title="{{ help_button_create_a_test_paysonaccount }}" class="btn btn-light"><i>Test Account</i></a>
+
+                <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fa-solid fa-reply"></i></a></div>
+            <h1>{{ heading_title }}</h1>
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                    {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="alert alert-info"><i class="fa-solid fa-circle-exclamation"></i> {{ text_description }}</div>        
+        <div class="card">
+            <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_edit }}</div>
+            <div class="card-body">
+                <form id="form-payment" action="{{ save }}" method="post" data-oc-toggle="ajax">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a href="#tab-api" data-bs-toggle="tab" class="nav-link active">{{ tab_api }}</a></li>  
+                        <li class="nav-item"><a href="#tab-general" data-bs-toggle="tab" class="nav-link">{{ tab_general }}</a></li> 
+                        <li class="nav-item"><a href="#tab-order-status" data-bs-toggle="tab" class="nav-link">{{ tab_order_status }}</a></li>
+                        <li class="nav-item"><a href="#tab-checkout-scheme" data-bs-toggle="tab" class="nav-link">{{ tab_checkout_scheme }}</a></li>
+                    </ul>
+                    <div class="tab-content">       
+                        <div id="tab-api" class="tab-pane active">
+                            <hr style="border:4px solid lightblue">
+                            <legend>Agent</legend>
+                            <div class="row mb-3">
+                                <label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_status" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_status" value="1" id="input-status" class="form-check-input"{% if payment_paysoncheckout_status %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_status_extension }}</div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="input-method-mode" class="col-sm-2 col-form-label">{{ entry_method_mode }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg">                                 
+                                        <input type="hidden" name="payment_paysoncheckout_method_mode" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_method_mode" value="1" id="input-method-mode" class="form-check-input"{% if payment_paysoncheckout_method_mode %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_method_mode }}</div>
+                                </div>
+                            </div>   
+
+                            <div class="row mb-3 required">
+                                <label class="col-sm-2 col-form-label" for="input-merchant-id">{{merchant_id}}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_merchant_id" value="{{payment_paysoncheckout_merchant_id}}" placeholder="{{merchant_id}}" id="input-merchant-id" class="form-control" />
+                                    <div id="error-merchant-id" class="invalid-feedback"></div>
+                                    <div class="form-text text-muted">{{ help_merchant_id }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 required">
+                                <label class="col-sm-2 col-form-label" for="input-api-key">{{api_key}}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_api_key" value="{{payment_paysoncheckout_api_key}}" placeholder="{{api_key}}" id="input-api-key" class="form-control" />
+                                    <div id="error-api-key" class="invalid-feedback"></div>
+                                    <div class="form-text text-muted">{{ help_api_key }}</div>
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div id="tab-general" class="tab-pane">
+                            <hr style="border:4px solid lightblue">
+                            <legend>Order general</legend>  
+
+                            <div class="row mb-3">
+                                <label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_sort_order" value="{{ payment_paysoncheckout_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
+                                </div>
+                            </div>    
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-total">{{entry_total}}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_total" value="{{payment_paysoncheckout_total}}" placeholder="{{entry_total}}" id="input-total" class="form-control" />
+                                    <div class="form-text text-muted">{{ help_total }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="input-geo-zone" class="col-sm-2 col-form-label">{{ entry_geo_zone }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_geo_zone_id" id="input-geo-zone" class="form-select">
+                                        <option value="0">{{ text_all_zones }}</option>
+                                        {% for geo_zone in geo_zones %}
+                                            <option value="{{ geo_zone.geo_zone_id }}"{% if geo_zone.geo_zone_id == payment_paysoncheckout_geo_zone_id %} selected="selected"{% endif %}>{{ geo_zone.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-logotype">{{entry_logotype}}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_logotype" id="input-logotype" class="form-control">
+                                        {% if payment_paysoncheckout_logotype == false  %}
+                                            <option value="3">{{text_logotype_yes_right}}</option>
+                                            <option value="2">{{text_logotype_yes_left}}</option>
+                                            <option value="1" selected="selected">{{text_logotype_no}}</option>
+                                        {% else %}
+                                            <option>{{payment_paysoncheckout_logotype}}</option>
+                                            <option value="3">{{text_logotype_yes_right}}</option>
+                                            <option value="2">{{text_logotype_yes_left}}</option>
+                                            <option value="1">{{text_logotype_no}}</option>
+                                        {% endif %}   
+                                    </select> 
+                                    <div class="form-text text-muted">{{ help_logotype }}</div>
+                                </div>
+                            </div>
+
+                            <hr style="border:4px solid lightblue">
+                            <legend>Payment window</legend>
+
+                            <div class="row mb-3">
+                                <label for="input-one-page-checkout" class="col-sm-2 col-form-label">{{ entry_enable_one_page_checkout }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_one_page_checkout" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_one_page_checkout" value="1" id="input-receipt" class="form-check-input"{% if payment_paysoncheckout_one_page_checkout %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_enable_one_page_checkout }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="input-verification" class="col-sm-2 col-form-label">{{ entry_verification }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg"> 
+                                        <input type="hidden" name="payment_paysoncheckout_gui_verification" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_gui_verification" value="1" id="input-verification" class="form-check-input"{% if payment_paysoncheckout_gui_verification %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_verification }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-countries">{{ entry_countries }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_countries" value="{{ (payment_paysoncheckout_countries == '' ? '' : payment_paysoncheckout_countries)}}" placeholder="{{ entry_countries }}" id="input-countries" class="form-control" />
+                                    {% if error_countries %}
+                                        <div class="text-danger">{{ error_countries }}</div>
+                                    {% endif %}
+                                    <div class="form-text text-muted">{{ help_countries }}</div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="input-receipt" class="col-sm-2 col-form-label">{{ entry_show_receipt_page }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_receipt" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_receipt" value="1" id="input-receipt" class="form-check-input"{% if payment_paysoncheckout_receipt %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_receipt }}</div>
+                                </div>
+                            </div>
+
+                            <hr style="border:4px solid lightblue">
+                            <legend>Logs</legend>
+
+                            <div class="row mb-3">
+                                <label for="input-logg" class="col-sm-2 col-form-label">{{ entry_logg }}</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_logg" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_logg" value="1" id="input-logg" class="form-check-input"{% if payment_paysoncheckout_logg %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_logg }}</div>
+                                </div>
+                            </div>
+
+                            <hr style="border:4px solid lightblue">
+                            <legend>Order Totals</legend>                                
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-ignore-order-totals">{{ entry_totals_to_ignore }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_ignore_order_totals" value="{{ (payment_paysoncheckout_ignore_order_totals == '' ? '' : payment_paysoncheckout_ignore_order_totals)}}" placeholder="{{ entry_totals_to_ignore }}" id="input-ignore-order-totals" class="form-control" />
+
+                                    <div id="error-ignored-order-totals" class="invalid-feedback"></div>
+                                    <div class="form-text text-muted">{{ help_totals_to_ignore }}</div>
+                                </div>
+                            </div>
+
+                            <hr style="border:4px solid lightblue">
+                            <legend>Product Out Of Stock</legend>
+                            <div class="row mb-3">
+                                <label for="input-receipt" class="col-sm-2 col-form-label">{{ entry_product_out_of_stock }}</label>
+                                <div class="col-sm-10">         
+
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_out_of_stock" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_out_of_stock" value="1" id="input-out-of-stock" class="form-check-input"{% if payment_paysoncheckout_out_of_stock %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_product_out_of_stock }}</div> 
+                                </div>
+                            </div>
+
+                            <hr style="border:4px solid lightblue">
+                            <legend>Terms & Conditions</legend>     
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-terms-and-conditions"> {{ terms_and_conditions }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_terms_and_conditions" value="{{ payment_paysoncheckout_terms_and_conditions }}" placeholder="{{ terms_and_conditions }}" id="input-terms-and-conditions" class="form-control" />
+                                    <div class="form-text text-muted">{{ help_terms_and_conditions }}</div>
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div id="tab-order-status" class="tab-pane">
+                            <hr style="border:4px solid lightblue">
+                            <legend>Order processing</legend>                                  
+
+                            <div class="row mb-3">
+                                <label for="input-order-status" class="col-sm-2 col-form-label">{{ entry_order_status }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_order_status_id" id="input-order-status" class="form-select">
+                                        {% for order_status in order_statuses %}
+                                            <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id ==  payment_paysoncheckout_order_status_id %} selected{% endif %}>{{ order_status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text text-muted">{{ help_order_status }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="input-order-status-shipped" class="col-sm-2 col-form-label">{{ entry_order_status_shipped }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_order_status_shipped_id" id="input-order-status" class="form-select">
+                                        {% for order_status in order_statuses %}
+                                            <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id == payment_paysoncheckout_order_status_shipped_id %} selected={% endif %}>{{ order_status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text text-muted">{{ help_order_status_shipped }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="input-order-status-canceled" class="col-sm-2 col-form-label">{{ entry_order_status_canceled }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_order_status_canceled_id" id="input-order-status" class="form-select">
+                                        {% for order_status in order_statuses %}
+                                            <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id == payment_paysoncheckout_order_status_canceled_id %} selected={% endif %}>{{ order_status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text text-muted">{{ help_order_status_canceled }}</div>
+                                </div>
+                            </div>   
+
+                            <div class="row mb-3">
+                                <label for="input-order-status-refunded" class="col-sm-2 col-form-label">{{ entry_order_status_refunded }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_order_status_refunded_id" id="input-order-status" class="form-select">
+                                        {% for order_status in order_statuses %}
+                                            <option value="{{ order_status.order_status_id }}"{% if order_status.order_status_id == payment_paysoncheckout_order_status_refunded_id %} selected={% endif %}>{{ order_status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-text text-muted">{{ help_order_status_refunded }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="input-price-mismatch" class="col-sm-2 col-form-label">{{ entry_price_mismatch }}</label>
+                                <div class="col-sm-10">         
+
+                                    <div class="form-check form-switch form-switch-lg">
+                                        <input type="hidden" name="payment_paysoncheckout_price_mismatch" value="0"/>
+                                        <input type="checkbox" name="payment_paysoncheckout_price_mismatch" value="1" id="input-out-of-stock" class="form-check-input"{% if payment_paysoncheckout_price_mismatch %} checked{% endif %}/>
+                                    </div>
+                                    <div class="form-text text-muted">{{ help_price_mismatch }}</div>
+                                </div>
+                            </div>        
+                        </div>
+
+                        <div id="tab-checkout-scheme" class="tab-pane"> 
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-color-scheme">{{ entry_color_scheme }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_color_scheme" id="input-logotype" class="form-control">
+                                        {% if payment_paysoncheckout_color_scheme == false  %}
+                                            <option value="gray">{{ text_color_scheme_gray }}</option>
+                                            <option value="white" selected="selected">{{ text_color_scheme_white }}</option>
+                                        {% else %}
+                                            <option>{{ payment_paysoncheckout_color_scheme }}</option>
+                                            <option value="gray">{{ text_color_scheme_gray }}</option>
+                                            <option value="white">{{ text_color_scheme_white }}</option>
+                                        {% endif %}   
+                                    </select> 
+                                    <div class="form-text text-muted">{{ help_color_scheme }}</div>
+                                </div>
+                            </div> 
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-iframe-size-width"> {{ entry_iframe_size_width }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_iframe_size_width" value="{{ payment_paysoncheckout_iframe_size_width }}" placeholder="{{ entry_iframe_size_width }}" id="input-iframe-size-width" class="form-control" />
+                                    <div class="form-text text-muted">{{ help_iframe_size_width }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-iframe-size-width-type">{{ entry_iframe_size_width_type }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_iframe_size_width_type" id="input-iframe_size_width_type" class="form-control">
+                                        {% if payment_paysoncheckout_iframe_size_width_type == false  %}
+                                            <option value="%" selected="selected">{{ text_iframe_size_width_percent }}</option>
+                                            <option value="px">{{ text_iframe_size_width_px }}</option>
+                                        {% else %}
+                                            <option>{{ payment_paysoncheckout_iframe_size_width_type }}</option>
+                                            <option value="%">{{ text_iframe_size_width_percent }}</option>
+                                            <option value="px">{{ text_iframe_size_width_px }}</option>
+                                        {% endif %}   
+                                    </select> 
+                                    <div class="form-text text-muted">{{ help_iframe_size_with_type }}</div>
+                                </div>
+                            </div>                                   
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-iframe-size-height"> {{ entry_iframe_size_width }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="payment_paysoncheckout_iframe_size_height" value="{{ payment_paysoncheckout_iframe_size_height }}" placeholder="{{ entry_iframe_size_width }}" id="input-iframe-size-height" class="form-control" />
+                                    <div class="form-text text-muted">{{ help_iframe_size_height }}</div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="input-iframe-size-height-type">{{ entry_iframe_size_height_type }}</label>
+                                <div class="col-sm-10">
+                                    <select name="payment_paysoncheckout_iframe_size_height_type" id="input-iframe_size_height_type" class="form-control">
+                                        {% if payment_paysoncheckout_iframe_size_height_type == false  %}
+                                            <option value="px" selected="selected">{{ text_iframe_size_height_px }}</option>
+                                            <option value="%">{{ text_iframe_size_height_percent }}</option>
+                                        {% else %}
+                                            <option>{{ payment_paysoncheckout_iframe_size_height_type }}</option>
+                                            <option value="px">{{ text_iframe_size_height_px }}</option>
+                                            <option value="%">{{ text_iframe_size_height_percent }}</option>
+                                        {% endif %}   
+                                    </select> 
+                                    <div class="form-text text-muted">{{ help_iframe_size_height_type }}</div>
+                                </div>
+                            </div>               
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}

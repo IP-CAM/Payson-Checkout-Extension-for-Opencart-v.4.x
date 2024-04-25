@@ -1,0 +1,73 @@
+{{ header }}
+<div id="checkout-checkout" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+            {% endfor %}
+    </ul>
+    <div id="content" class="col">{{ content_top }}
+
+        <div class="row">
+            <div class="col-md-7 mb-3">
+                <div id="checkout-shipping-method" class="mb-3">{{ shipping_method }}</div>  
+                <div id="checkout-confirm">{{ confirm }}</div>
+                {% if isShipping == 0 %}
+                    <label for="input-comment" class="form-label">{{ preferred_shipping_method }}</label>
+                    <br/><br/>
+                {% endif %}
+                <br/>
+
+            </div>
+            <div class="col">
+                <legend>{{ heading_title }}</legend>
+                <div class="mb-3"> 
+                    <div id="payson">
+                        <div id="checkoutIframe">
+                            {{ snippet }}
+                        </div>
+                    </div>
+                </div>
+            </div>             
+        </div>
+    </div>
+    {{ column_right }}
+</div>
+{{ footer }}
+
+        <script type="text/javascript"><!--
+document.getElementById("checkout-payment").style.display = "none";
+    var divPayson = document.getElementById("payson");
+    if (!{{isShipping }}){
+        divPayson.style.pointerEvents = "none";
+        divPayson.style.opacity = "0.7";
+
+        $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> SHIPPING METHOD, {{ preferred_shipping_method }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+    }
+        
+            $('#button-shipping-method').on('click', function () {
+        {% if snippet %}
+                var element = this;
+
+                chain.attach(function () {
+                    return $.ajax({
+                        url: 'index.php?route=extension/oc_payment_paysoncheckout/payment/paysoncheckout.editOrderItems&language={{ language }}&checkoutId={{ checkoutId }}&orderId={{ orderId }}',
+                        type: 'GET',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $(element).prop('disabled', true);
+
+                        },
+                        complete: function () {
+                            $(element).prop('disabled', false);
+                        },
+                        success: function (json) {
+                            $("#checkoutIframe").remove(); //remove preview of the next snippet.
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                });
+        {% endif %}  
+            });
+//--></script>

@@ -1,0 +1,20 @@
+{{ header }}
+<div id="common-success" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+            {% endfor %}
+    </ul>
+    <div id="content" class="col">
+        <div class="row">
+            <div class="mb-3" align="center">
+                <iframe id='checkoutIframe' name='checkoutIframe' frameborder='0'  scrolling='no' style="height:{{ height }}; width:{{ width }}" title="Checkout Iframe"> </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}
+
+<script type="text/javascript"><!--
+$('#checkoutIframe').attr('src', "{{ snippet }}");
+//--></script>

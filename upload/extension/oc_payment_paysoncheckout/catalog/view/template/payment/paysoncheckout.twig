@@ -1,0 +1,100 @@
+<div id="checkout-checkout" class="container">
+    <div class="row">{{ column_left }}
+
+        {% if snippet %}
+            {{ snippet }}     
+        {% endif %}   
+
+    </div>
+</div>
+    <script type="text/javascript"><!--
+    $('#button-confirm').on('click', function () {
+        var element = this;
+
+        $.ajax({
+            url: 'index.php?route=extension/oc_payment_paysoncheckout/payment/paysoncheckout.confirm&language={{ language }}',
+            dataType: 'json',
+            beforeSend: function () {
+
+            },
+            complete: function () {
+
+            },
+            success: function (json) {
+                if (json['error']) {
+
+                }
+
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+
+// Triggered when customer adress has been set or changed
+    document.addEventListener("PaysonEmbeddedAddressChanged", function (evt) {
+        var address = evt.detail;
+        AddressChanged(address);
+    });
+
+// Reloads the iframe object (for example after updating of an order amount)
+    function sendUpdate() {
+        document.getElementById('paysonIframe').contentWindow.postMessage('updatePage', '*');
+    }
+
+// Lock iframe object from user interaction until checkout is updated
+    function sendLockDown() {
+        document.getElementById('paysonIframe').contentWindow.postMessage('lock', '*');
+    }
+
+// Release an locked iframe object
+    function sendRelease() {
+        document.getElementById('paysonIframe').contentWindow.postMessage('release', '*');
+    }
+
+    function AddressChanged(address) {
+        $.ajax({
+            url: 'index.php?route=extension/oc_payment_paysoncheckout/onecheckout/onecheckout.editPaysonEmbeddedAddress&language={{ language }}&shipping_address=' + JSON.stringify(address),
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function () {
+                sendLockDown();
+
+            },
+            complete: function () {
+                sendUpdate();
+
+            },
+            success: function (json) {
+                if (json['is_payson_embedded_address_changed']) {
+                    chain.attach(function () {
+                        return $.ajax({
+                            url: 'index.php?route=extension/oc_payment_paysoncheckout/onecheckout/onecheckout.editOrderItems&language={{ language }}',
+                            type: 'GET',
+                            dataType: 'json',
+
+                            success: function (json) {
+                                sendRelease();
+                                if (json['redirect']) {
+                                    location = json['redirect'];
+                                }
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                            }
+                        });
+
+                    });
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+//--></script>
