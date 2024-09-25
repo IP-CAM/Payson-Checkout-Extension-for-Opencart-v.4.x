@@ -7,7 +7,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
     private $test_mode;
     public $data = array();
 
-    const MODULE_VERSION = '1.0.1.127';
+    const MODULE_VERSION = '1.0.2.0';
 
     function __construct($registry) {
         parent::__construct($registry);
@@ -1131,7 +1131,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
                         }
 
                         $data['total'] = $value['value'];
-                        $this->model_extension_oc_payment_paysoncheckout_paysoncheckout_order->updateTotal($order_id, $data);                      // Kontrollera här
+                        $this->model_extension_oc_payment_paysoncheckout_paysoncheckout_order->updateTotal($order_id, $data);
                     }
                 }
             }

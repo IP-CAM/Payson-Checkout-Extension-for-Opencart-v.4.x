@@ -6,7 +6,7 @@ $_['paysoncheckout_example'] = 'Example Extra Text';
 $_['heading_title'] = 'Payson Checkout 2.0';
 // Text
 $_['text_modul_name'] = 'Payson Checkout 2.0';
-$_['text_modul_version'] = '1.0.1.127';
+$_['text_modul_version'] = '1.0.2.0';
 
 $_['text_payment'] = 'Payment';
 $_['text_extension'] = 'Extensions';
@@ -14,7 +14,7 @@ $_['text_extension'] = 'Extensions';
 $_['text_description'] = 'Betalsätt i Payson Checkout erbjud dina kunder enkla och säkra betalningar på nätet. I Payson Checkout ingår alla betalsätt som standard! Återkommande kunder kan spara sina kortuppgifter för en smidig köpupplevelse.';
 
 $_['text_success'] = 'Success: Du har &auml;ndrat Payson Checkout 2.0 modulen!';
-$_['text_paysoncheckout'] = '<a onclick="window.open(\'https://www.payson.se/tj%C3%A4nster/ta-betalt\');"><img src="view/image/payment/paysoncheckout.png" alt="payson Checkout 2.0" title="payson Checkout 2.0" /></a>';
+$_['text_paysoncheckout'] = '<a onclick="window.open(\'https://www.svea.com/sv-se/foretag/betallosningar/e-handel/payson-checkout\');"><img src="view/image/payment/paysoncheckout.png" alt="payson Checkout 2.0" title="payson Checkout 2.0" /></a>';
 $_['text_edit'] = 'Payson Checkout';
 
 // Entry
