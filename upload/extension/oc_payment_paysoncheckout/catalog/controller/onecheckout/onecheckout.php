@@ -7,7 +7,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
     private $test_mode;
     public $data = array();
 
-    const MODULE_VERSION = '1.0.2.0';
+    const MODULE_VERSION = '1.0.2.1';
 
     function __construct($registry) {
         parent::__construct($registry);
@@ -137,7 +137,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
         $this->data['order_id'] = $order_data['order_id'];
         $this->data['amount'] = $this->currency->format($order_data['total'] * 100, $order_data['currency_code'], $order_data['currency_value'], false) / 100;
         $this->data['currency_code'] = $order_data['currency_code'];
-        $this->data['language_code'] = $order_data['language_code'];
+        $this->data['language_code'] = $order_data['language_code'] = $this->config->get('config_language');
 
         // Customer info
         $this->data['sender_email'] = isset($order_data['customer_id']) ? $order_data['email'] : '';
@@ -181,7 +181,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
         $this->data['order_id'] = $order_data['order_id'];
         $this->data['amount'] = $this->currency->format($order_data['total'] * 100, $order_data['currency_code'], $order_data['currency_value'], false) / 100;
         $this->data['currency_code'] = $order_data['currency_code'];
-        $this->data['language_code'] = $order_data['language_code'];
+        $this->data['language_code'] = $order_data['language_code'] = $this->config->get('config_language');
 
         $this->data['sender_email'] = isset($order_data['customer_id']) ? $order_data['email'] : '';
         $this->data['sender_first_name'] = $this->customer->isLogged() ? html_entity_decode($order_data['payment_firstname'], ENT_QUOTES, 'UTF-8') : $this->session->data['payment_address']['firstname'];
