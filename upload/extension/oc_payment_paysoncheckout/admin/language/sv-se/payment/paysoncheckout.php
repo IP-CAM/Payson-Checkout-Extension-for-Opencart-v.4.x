@@ -6,7 +6,7 @@ $_['paysoncheckout_example'] = 'Example Extra Text';
 $_['heading_title'] = 'Payson Checkout 2.0';
 // Text
 $_['text_modul_name'] = 'Payson Checkout 2.0';
-$_['text_modul_version'] = '1.0.2.1';
+$_['text_modul_version'] = '1.0.2.2';
 
 $_['text_payment'] = 'Payment';
 $_['text_extension'] = 'Extensions';

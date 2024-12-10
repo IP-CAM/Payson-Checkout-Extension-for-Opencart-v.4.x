@@ -151,7 +151,7 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="input-countries">{{ entry_countries }}</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="payment_paysoncheckout_countries" value="{{ (payment_paysoncheckout_countries == '' ? '' : payment_paysoncheckout_countries)}}" placeholder="{{ entry_countries }}" id="input-countries" class="form-control" />
+                                    <input type="text" name="payment_paysoncheckout_countries" value="{{ (payment_paysoncheckout_countries == '' ? '' : payment_paysoncheckout_countries)}}" placeholder="SE,NO,DK,FI" id="input-countries" class="form-control" />
                                     {% if error_countries %}
                                         <div class="text-danger">{{ error_countries }}</div>
                                     {% endif %}

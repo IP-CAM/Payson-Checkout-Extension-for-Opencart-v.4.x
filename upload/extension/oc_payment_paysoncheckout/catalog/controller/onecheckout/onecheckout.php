@@ -7,7 +7,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
     private $test_mode;
     public $data = array();
 
-    const MODULE_VERSION = '1.0.2.1';
+    const MODULE_VERSION = '1.0.2.2';
 
     function __construct($registry) {
         parent::__construct($registry);
@@ -258,7 +258,7 @@ class Onecheckout extends \Opencart\System\Engine\Controller {
             'verification' => $this->config->get('payment_paysoncheckout_gui_verification'),
             'requestPhone' => (int) $this->config->get('config_telephone_display'),
             'phoneOptional' => (!((int) $this->config->get('config_telephone_required')) ? 1 : 0),
-            'countries' => [$this->config->get('payment_paysoncheckout_countries')],
+            'countries' => ($this->config->get('payment_paysoncheckout_countries') == null || $this->config->get('payment_paysoncheckout_countries') == 0 ? "" : [$this->config->get('payment_paysoncheckout_countries')]),
         );
 
         if (!$this->test_mode) {
